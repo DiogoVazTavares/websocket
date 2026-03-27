@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echoer</title>
+  </head>
+  <body>
+    <button id="ping">Ping</button>
+    <button id="close">Close</button>
+    <button id="error">Error</button>
+  </body>
+  <script>
+    const wsUrl = "wss://echo.websocket.org";
+    const socket = new WebSocket(wsUrl);
+
+    socket.onopen = () => console.log("Connected!");
+    socket.onmessage = (event) => console.log(`Received: ${event.data}`);
+
+    const pingBtn = document.getElementById('ping');
+    pingBtn.addEventListener('click', () => {
+        socket.send('ping');
+    });
+  </script>
+</html>

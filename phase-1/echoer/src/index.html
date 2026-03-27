@@ -9,5 +9,42 @@
     <button id="close">Close</button>
     <button id="error">Error</button>
   </body>
-  <script type="module" src="./websocket.js"></script>
+  <script>
+    const wsUri = "ws://localhost:8080";
+    const socket = new WebSocket(wsUri);
+
+    socket.addEventListener("open", () => {
+      console.log("Connected!");
+    });
+
+    socket.addEventListener("message", (event) => {
+      console.log(`Received: ${event.data}`);
+    });
+
+    socket.addEventListener("error", (event) => {
+      console.log(`Error: ${event.data}`);
+    });
+
+    socket.addEventListener("close", (event) => {
+      console.log("Connection closed");
+      console.log(`Code: ${event.code}`);
+      console.log(`Reason: ${event.reason}`);
+    });
+
+    const pingBtn = document.getElementById("ping");
+    const errorBtn = document.getElementById("error");
+    const closeBtn = document.getElementById("close");
+
+    pingBtn.addEventListener("click", () => {
+      socket.send("Hey there!!!!");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      socket.close();
+    });
+
+    errorBtn.addEventListener("click", () => {
+      socket.send("SIMULATE_ERROR");
+    });
+  </script>
 </html>
